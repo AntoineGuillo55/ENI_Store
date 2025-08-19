@@ -16,11 +16,11 @@ public class ApiRestController {
     ArticleService articleService;
 
     @GetMapping("api/article/get-all")
-    public List<Article> getAllArticles(){
+    public ServiceResponse<List<Article>> getAllArticles(){
 
         ServiceResponse<List<Article>> articles = articleService.getAll();
 
-        return articles.data;
+        return articles;
     }
 
     @GetMapping("api/article/{id}")
@@ -39,9 +39,9 @@ public class ApiRestController {
     }
 
     @DeleteMapping("api/article/{id}")
-    public ServiceResponse<String> deleteArticleById(@PathVariable int id){
+    public ServiceResponse<Boolean> deleteArticleById(@PathVariable int id){
 
-        ServiceResponse<String> response = articleService.deleteById(id);
+        ServiceResponse<Boolean> response = articleService.deleteById(id);
         return response;
     }
 }
