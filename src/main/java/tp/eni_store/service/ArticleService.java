@@ -32,7 +32,7 @@ public class ArticleService {
 
         if (article == null) {
             String message = localeHelper.i18n("ArticleService_GetById_703");
-            return ServiceHelper.buildResponse("703", message, article);
+            return ServiceHelper.buildResponse("703", message, null);
         }
         String message = localeHelper.i18n("ArticleService_GetById_202");
 
@@ -59,10 +59,10 @@ public class ArticleService {
 
         if(result.isUpdated == true) {
             String message = localeHelper.i18n("ArticleService_Save_202_Updated");
-            return ServiceHelper.buildResponse("202", message, result);
+            return ServiceHelper.buildResponse("203", message, result);
         }
 
         String message = localeHelper.i18n("ArticleService_Save_202_Added");
-        return ServiceHelper.buildResponse("703", message, result);
+        return ServiceHelper.buildResponse("202", message, result);
     }
 }
