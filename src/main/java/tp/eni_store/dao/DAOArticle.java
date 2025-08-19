@@ -5,6 +5,7 @@ import tp.eni_store.bo.Article;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DAOArticle {
@@ -37,12 +38,21 @@ public class DAOArticle {
 
     public boolean deleteById(int id) {
 
-        if(articles.stream().noneMatch(article1 -> article1.id == id)) {
-            return false;
+        return articles.removeIf(article1 -> article1.id == id);
+    }
+
+    public DAOSaveResult<Article> insertOrUpdate(Article article) {
+
+        Optional<Article> optionalArticle = articles.stream().filter(article1 -> article1.id == article.id).findFirst();
+
+        if (optionalArticle.isPresent()) {
+            optionalArticle.get().title = article.title;
+            return DAOResultHelper.buildDAOResult(true, "Article updated", article);
+        } else {
+            articles.add(article);
+            return DAOResultHelper.buildDAOResult(false, "Article added", article);
         }
 
-        articles.removeIf(article1 -> article1.id == id);
 
-        return true;
     }
 }

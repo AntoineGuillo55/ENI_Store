@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tp.eni_store.bo.Article;
 import tp.eni_store.dao.DAOArticle;
+import tp.eni_store.dao.DAOSaveResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,43 +16,44 @@ public class ArticleService {
 
     public ServiceResponse<List<Article>> getAll() {
 
-        ServiceResponse<List<Article>> response = new ServiceResponse<>();
         List<Article> articles = daoArticle.selectAll();
 
-        response.code = "202";
-        response.data = articles;
+        return ServiceHelper.buildResponse("200", articles);
 
-        return response;
+
     }
 
     public ServiceResponse<Article> getById(int id) {
 
-        ServiceResponse<Article> response = new ServiceResponse<>();
         Article article = daoArticle.selectById(id);
 
-        if (article != null) {
-            response.code = "202";
-            response.data = article;
-        } else {
-            response.code = "703";
-            response.data = article;
+        if (article == null) {
+            return ServiceHelper.buildResponse("703", article);
         }
 
-        return response;
+        return ServiceHelper.buildResponse("202", article);
     }
 
-    public ServiceResponse<Article> deleteById(int id) {
+    public ServiceResponse<String> deleteById(int id) {
 
         boolean result = daoArticle.deleteById(id);
 
-        ServiceResponse<Article> response = new ServiceResponse<>();
-
         if (result) {
-            response.code = "202";
-        } else  {
-            response.code = "703";
+            return ServiceHelper.buildResponse("202", "Article deleted successfully");
         }
 
-        return response;
+        return ServiceHelper.buildResponse("703", "The provided ID does not exist");
+
+    }
+
+    public ServiceResponse<DAOSaveResult<Article>> save(Article article) {
+
+        DAOSaveResult result = daoArticle.insertOrUpdate(article);
+
+        if(result.equals("updated")) {
+            return ServiceHelper.buildResponse("202", result);
+        }
+
+        return ServiceHelper.buildResponse("703", result);
     }
 }
