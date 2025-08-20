@@ -13,21 +13,23 @@ import java.util.List;
 @RestController
 public class ApiRestController {
 
-    @Autowired
+
     ArticleService articleService;
+
+    public ApiRestController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     @Operation(summary = "Endpoint pour récupérer tous les articles")
     @GetMapping("api/article/get-all")
     public ServiceResponse<List<Article>> getAllArticles(){
 
-        ServiceResponse<List<Article>> articles = articleService.getAll();
-
-        return articles;
+        return articleService.getAll();
     }
 
     @Operation(summary = "Endpoint pour récupérer un article avec son id")
     @GetMapping("api/article/{id}")
-    public Article getArticleById(@PathVariable int id){
+    public Article getArticleById(@PathVariable String id){
 
         ServiceResponse<Article> article = articleService.getById(id);
         return article.data;
@@ -37,16 +39,13 @@ public class ApiRestController {
     @PostMapping("api/article/save")
     public ServiceResponse<DAOSaveResult<Article>> saveArticle(@RequestBody Article article){
 
-        ServiceResponse<DAOSaveResult<Article>> result = articleService.save(article);
-
-        return result;
+        return articleService.save(article);
     }
 
     @Operation(summary = "Endpoint pour supprimer un article")
     @DeleteMapping("api/article/{id}")
-    public ServiceResponse<Boolean> deleteArticleById(@PathVariable int id){
+    public ServiceResponse<Article> deleteArticleById(@PathVariable String id){
 
-        ServiceResponse<Boolean> response = articleService.deleteById(id);
-        return response;
+        return articleService.deleteById(id);
     }
 }

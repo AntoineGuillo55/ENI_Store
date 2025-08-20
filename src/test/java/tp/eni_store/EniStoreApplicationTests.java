@@ -33,11 +33,11 @@ class EniStoreApplicationTests {
     @Test
     void getArticleById_test() {
 
-        ServiceResponse<Article> result_1 = articleService.getById(1);
+        ServiceResponse<Article> result_1 = articleService.getById("1");
         assertThat(result_1.code).isEqualTo("202");
         assertThat(result_1).isNotNull();
 
-        ServiceResponse<Article> result_2 = articleService.getById(52);
+        ServiceResponse<Article> result_2 = articleService.getById("52");
         assertThat(result_2.code).isEqualTo("703");
 
     }
@@ -45,7 +45,7 @@ class EniStoreApplicationTests {
     @Test
     void save_test(){
 
-        Article article1 = articleService.getById(2).data;
+        Article article1 = articleService.getById("2").data;
         article1.title = "New title";
 
         ServiceResponse<DAOSaveResult<Article>> result_1 = articleService.save(article1);
@@ -53,7 +53,7 @@ class EniStoreApplicationTests {
         assertThat(result_1.data.isUpdated).isEqualTo(true);
 
         Article article2 = new Article();
-        article2.id = 45;
+        article2.id = "45";
         article2.title = "Title 45";
 
         ServiceResponse<DAOSaveResult<Article>> result_2 = articleService.save(article2);
@@ -64,10 +64,10 @@ class EniStoreApplicationTests {
     @Test
     void deleteById_test() {
 
-        ServiceResponse<Boolean> result_1 = articleService.deleteById(1);
+        ServiceResponse<Article> result_1 = articleService.deleteById("1");
         assertThat(result_1.code).isEqualTo("202");
 
-        ServiceResponse<Boolean> result_2 = articleService.deleteById(52);
+        ServiceResponse<Article> result_2 = articleService.deleteById("52");
         assertThat(result_2.code).isEqualTo("703");
     }
 }

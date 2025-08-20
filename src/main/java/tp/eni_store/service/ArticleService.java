@@ -1,11 +1,9 @@
 package tp.eni_store.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import tp.eni_store.bo.Article;
-import tp.eni_store.dao.DAOArticle;
 import tp.eni_store.dao.DAOSaveResult;
+import tp.eni_store.dao.IDAOArticle;
 import tp.eni_store.locale.LocaleHelper;
 
 import java.util.List;
@@ -13,11 +11,14 @@ import java.util.List;
 @Service
 public class ArticleService {
 
-    @Autowired
-    DAOArticle daoArticle;
 
-    @Autowired
+    IDAOArticle daoArticle;
     LocaleHelper localeHelper;
+
+    public ArticleService(IDAOArticle daoArticle, LocaleHelper localeHelper) {
+        this.daoArticle = daoArticle;
+        this.localeHelper = localeHelper;
+    }
 
     public ServiceResponse<List<Article>> getAll() {
 
@@ -26,7 +27,7 @@ public class ArticleService {
         return ServiceHelper.buildResponse("202", message, articles);
     }
 
-    public ServiceResponse<Article> getById(int id) {
+    public ServiceResponse<Article> getById(String id) {
 
         Article article = daoArticle.selectById(id);
 
@@ -39,25 +40,26 @@ public class ArticleService {
         return ServiceHelper.buildResponse("202", message, article);
     }
 
-    public ServiceResponse<Boolean> deleteById(int id) {
+    public ServiceResponse<Article> deleteById(String id) {
 
-        boolean result = daoArticle.deleteById(id);
+        Article article = daoArticle.selectById(id);
+        daoArticle.delete(article);
 
-        if (result) {
+        if (article != null) {
             String message = localeHelper.i18n("ArticleService_DeleteById_202");
-            return ServiceHelper.buildResponse("202", message, result);
+            return ServiceHelper.buildResponse("202", message, article);
         }
 
         String message = localeHelper.i18n("ArticleService_DeleteById_703");
-        return ServiceHelper.buildResponse("703", message, result);
+        return ServiceHelper.buildResponse("703", message, article);
 
     }
 
     public ServiceResponse<DAOSaveResult<Article>> save(Article article) {
 
-        DAOSaveResult result = daoArticle.insertOrUpdate(article);
+        DAOSaveResult<Article> result = daoArticle.insertOrUpdate(article);
 
-        if(result.isUpdated == true) {
+        if(result.isUpdated) {
             String message = localeHelper.i18n("ArticleService_Save_202_Updated");
             return ServiceHelper.buildResponse("203", message, result);
         }

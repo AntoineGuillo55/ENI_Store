@@ -1,7 +1,12 @@
 package tp.eni_store.bo;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "articles")
 public class Article {
 
-    public int id;
+    @Id
+    public String id;
     public String title;
 }
