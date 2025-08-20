@@ -53,9 +53,5 @@ public class DAOArticleMongo implements IDAOArticle {
 
         return DAOResultHelper.buildDAOResult(false, "Article added", article);
 
-        }
-
-
-
     }
 }
