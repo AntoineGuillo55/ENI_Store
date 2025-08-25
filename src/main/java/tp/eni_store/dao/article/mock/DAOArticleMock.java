@@ -1,11 +1,11 @@
-package tp.eni_store.dao.mock;
+package tp.eni_store.dao.article.mock;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import tp.eni_store.bo.Article;
 import tp.eni_store.dao.DAOResultHelper;
 import tp.eni_store.dao.DAOSaveResult;
-import tp.eni_store.dao.IDAOArticle;
+import tp.eni_store.dao.article.IDAOArticle;
 
 import java.util.ArrayList;
 import java.util.List;

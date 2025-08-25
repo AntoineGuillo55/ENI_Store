@@ -3,7 +3,7 @@ package tp.eni_store.service;
 import org.springframework.stereotype.Service;
 import tp.eni_store.bo.Article;
 import tp.eni_store.dao.DAOSaveResult;
-import tp.eni_store.dao.IDAOArticle;
+import tp.eni_store.dao.article.IDAOArticle;
 import tp.eni_store.locale.LocaleHelper;
 
 import java.util.List;

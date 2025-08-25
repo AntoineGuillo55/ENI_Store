@@ -1,11 +1,11 @@
-package tp.eni_store.dao.mongo;
+package tp.eni_store.dao.article.mongo;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import tp.eni_store.bo.Article;
 import tp.eni_store.dao.DAOResultHelper;
 import tp.eni_store.dao.DAOSaveResult;
-import tp.eni_store.dao.IDAOArticle;
+import tp.eni_store.dao.article.IDAOArticle;
 
 import java.util.List;
 import java.util.Optional;
