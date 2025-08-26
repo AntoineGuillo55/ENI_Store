@@ -1,6 +1,7 @@
 package tp.eni_store.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tp.eni_store.bo.Article;
 import tp.eni_store.dao.DAOSaveResult;
@@ -19,6 +20,8 @@ public class ApiRestArticleController {
         this.articleService = articleService;
     }
 
+//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Endpoint pour récupérer tous les articles")
     @GetMapping("api/article/get-all")
     public ServiceResponse<List<Article>> getAllArticles(){

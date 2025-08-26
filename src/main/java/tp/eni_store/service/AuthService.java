@@ -99,4 +99,16 @@ public class AuthService {
 
         return ServiceHelper.buildResponse(CD_SUCCESS_DEFAULT, "Token valide", true);
     }
+
+    public Claims getClaimsFromToken(String token){
+        JwtParser jwtParser = Jwts.parser().setSigningKey(getSecretKey()).build();
+        Claims claims = jwtParser.parseSignedClaims(token).getPayload();
+        return claims;
+    }
+
+    public String getEmailFromToken(String token){
+        String email = getClaimsFromToken(token).getSubject();
+
+        return email;
+    }
 }

@@ -30,7 +30,7 @@ public class SpringSecurityConfig {
         // Désactiver le cors => Authoriser tout le monde à venir sur l'API
         http.cors(cors -> cors.disable());
 
-        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

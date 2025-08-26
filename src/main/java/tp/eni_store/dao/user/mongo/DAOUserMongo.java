@@ -59,4 +59,9 @@ public class DAOUserMongo implements IDAOUser {
     public User selectPersonByLogin(String email, String password) {
         return userMongoRepository.findByEmailAndPassword(email, password);
     }
+
+    @Override
+    public User selectUserByEmail(String email) {
+        return userMongoRepository.findByEmail(email);
+    }
 }

@@ -19,4 +19,6 @@ public interface IDAOUser {
     DAOSaveResult<User> insertOrUpdate(User user);
 
     User selectPersonByLogin(String email,  String password);
+
+    User selectUserByEmail(String email);
 }
