@@ -11,6 +11,8 @@ import tp.eni_store.dao.user.IDAOUser;
 import java.security.Key;
 import java.util.Date;
 
+import static tp.eni_store.service.ServicesConstants.*;
+
 @Component
 public class AuthService {
 
@@ -39,7 +41,7 @@ public class AuthService {
         User loggedPerson = daoUser.selectPersonByLogin(email, password);
 
         if(loggedPerson == null){
-            return ServiceHelper.buildResponse("703", "Aucun utilisateur connecté", null);
+            return ServiceHelper.buildResponse(CD_ERR_NOT_FOUND, "Aucun utilisateur connecté", null);
         }
 
         Date tokenLifetime = new Date(System.currentTimeMillis() + ((1000 * 60 * 60) * 1));
@@ -52,7 +54,7 @@ public class AuthService {
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
 
-        return ServiceHelper.buildResponse("202", "Token généré avec succès", token);
+        return ServiceHelper.buildResponse(CD_SUCCESS_DEFAULT, "Token généré avec succès", token);
     }
 
     public ServiceResponse<Boolean> checkToken(String token) {
@@ -60,7 +62,7 @@ public class AuthService {
         //Error: 1 - Si empty
         if(token.isEmpty()) {
 
-            ServiceHelper.buildResponse("704", "Erreur: Token vide", false);
+            ServiceHelper.buildResponse(CD_ERR_INVALID, "Erreur: Token vide", false);
         }
 
         // ATTENTION SELON LE CAS LE TOKEN EST SUFFIXE D'UN DISCRIMINANT
@@ -84,17 +86,17 @@ public class AuthService {
         } catch (Exception ex) {
 
             if(ex instanceof ExpiredJwtException) {
-                return ServiceHelper.buildResponse("704", "Erreur: Token expiré", false);
+                return ServiceHelper.buildResponse(CD_ERR_INVALID, "Erreur: Token expiré", false);
             }
 
             if(ex instanceof MalformedJwtException) {
-                return ServiceHelper.buildResponse("704", "Erreur: Token malformé", false);
+                return ServiceHelper.buildResponse(CD_ERR_INVALID, "Erreur: Token malformé", false);
             }
 
-            return ServiceHelper.buildResponse("704", "Erreur inconnue", false);
+            return ServiceHelper.buildResponse(CD_ERR_INVALID, "Erreur inconnue", false);
         }
 
 
-        return ServiceHelper.buildResponse("202", "Token valide", true);
+        return ServiceHelper.buildResponse(CD_SUCCESS_DEFAULT, "Token valide", true);
     }
 }

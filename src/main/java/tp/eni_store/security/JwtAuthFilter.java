@@ -12,6 +12,8 @@ import tp.eni_store.service.ServiceResponse;
 
 import java.io.IOException;
 
+import static tp.eni_store.service.ServicesConstants.CD_SUCCESS_DEFAULT;
+
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
@@ -32,7 +34,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             ServiceResponse<Boolean> serviceResponse = authService.checkToken(token);
 
-            if (!serviceResponse.code.equals("202")) {
+            if (!serviceResponse.code.equals(CD_SUCCESS_DEFAULT)) {
 
                 response.setContentType("application/json");
 

@@ -8,6 +8,8 @@ import tp.eni_store.locale.LocaleHelper;
 
 import java.util.List;
 
+import static tp.eni_store.service.ServicesConstants.*;
+
 @Service
 public class ArticleService {
 
@@ -24,7 +26,7 @@ public class ArticleService {
 
         List<Article> articles = daoArticle.selectAll();
         String message = localeHelper.i18n("ArticleService_GetAll_202");
-        return ServiceHelper.buildResponse("202", message, articles);
+        return ServiceHelper.buildResponse("CD_SUCCESS_DEFAULT", message, articles);
     }
 
     public ServiceResponse<Article> getById(String id) {
@@ -33,11 +35,11 @@ public class ArticleService {
 
         if (article == null) {
             String message = localeHelper.i18n("ArticleService_GetById_703");
-            return ServiceHelper.buildResponse("703", message, null);
+            return ServiceHelper.buildResponse(CD_ERR_NOT_FOUND, message, null);
         }
         String message = localeHelper.i18n("ArticleService_GetById_202");
 
-        return ServiceHelper.buildResponse("202", message, article);
+        return ServiceHelper.buildResponse(CD_SUCCESS_DEFAULT, message, article);
     }
 
     public ServiceResponse<Article> deleteById(String id) {
@@ -47,11 +49,11 @@ public class ArticleService {
 
         if (article != null) {
             String message = localeHelper.i18n("ArticleService_DeleteById_202");
-            return ServiceHelper.buildResponse("202", message, article);
+            return ServiceHelper.buildResponse(CD_SUCCESS_DEFAULT, message, article);
         }
 
         String message = localeHelper.i18n("ArticleService_DeleteById_703");
-        return ServiceHelper.buildResponse("703", message, article);
+        return ServiceHelper.buildResponse(CD_ERR_NOT_FOUND, message, article);
 
     }
 
@@ -61,10 +63,10 @@ public class ArticleService {
 
         if(result.isUpdated) {
             String message = localeHelper.i18n("ArticleService_Save_202_Updated");
-            return ServiceHelper.buildResponse("203", message, result);
+            return ServiceHelper.buildResponse(CD_SUCCESS_PERSIST, message, result);
         }
 
         String message = localeHelper.i18n("ArticleService_Save_202_Added");
-        return ServiceHelper.buildResponse("202", message, result);
+        return ServiceHelper.buildResponse(CD_SUCCESS_DEFAULT, message, result);
     }
 }
